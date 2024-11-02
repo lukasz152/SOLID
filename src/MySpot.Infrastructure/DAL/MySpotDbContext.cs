@@ -6,7 +6,7 @@ namespace MySpot.Infrastructure.DAL
     public sealed class MySpotDbContext :DbContext
     {
         public DbSet<Reservation> Reservation { get; set; }
-        public DbSet<WeeklyParkingSpot> WeeklyParkingSpot { get; set; }
+        public DbSet<WeeklyParkingSpot> WeeklyParkingSpots { get; set; }
 
         public MySpotDbContext(DbContextOptions<MySpotDbContext> dbContextOptions) : base(dbContextOptions)
         {

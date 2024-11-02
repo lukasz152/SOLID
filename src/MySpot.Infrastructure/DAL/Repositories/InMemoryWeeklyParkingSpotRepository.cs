@@ -22,21 +22,23 @@ namespace MySpot.Infrastructure.DAL.Repositories
         }
 
 
-        public WeeklyParkingSpot Get(ParkingSpotId id) => _weeklyParkingSpots.FirstOrDefault(sp => sp.Id == id);
+        public Task<WeeklyParkingSpot> GetAsync(ParkingSpotId id) 
+            => Task.FromResult(_weeklyParkingSpots.FirstOrDefault(sp => sp.Id == id));
 
-        public IEnumerable<WeeklyParkingSpot> GetAll() => _weeklyParkingSpots;
+        public Task<IEnumerable<WeeklyParkingSpot>> GetAllAsync() => Task.FromResult(_weeklyParkingSpots.AsEnumerable());
 
-        public void Add(WeeklyParkingSpot weeklyParkingSpot)
+        public Task AddAsync(WeeklyParkingSpot weeklyParkingSpot)
         {
             _weeklyParkingSpots.Add(weeklyParkingSpot);
-        }
-        public void Update(WeeklyParkingSpot weeklyParkingSpot)
-        {
-        }
-        public void Delete(WeeklyParkingSpot weeklyParkingSpot)
-        {
-            _weeklyParkingSpots.Remove(weeklyParkingSpot);
+            return Task.CompletedTask;
         }
 
+        public Task UpdateAsync(WeeklyParkingSpot weeklyParkingSpot) => Task.CompletedTask;
+
+        public Task DeleteAsync(WeeklyParkingSpot weeklyParkingSpot)
+        {
+            _weeklyParkingSpots.Remove(weeklyParkingSpot);
+            return Task.CompletedTask;
+        }
     }
 }

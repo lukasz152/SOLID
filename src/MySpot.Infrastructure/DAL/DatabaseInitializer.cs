@@ -25,7 +25,7 @@ namespace MySpot.Infrastructure.DAL
 
                 dbContext.Database.Migrate(); //jezeli nei istnieje to stworzy baze danych 
 
-                var weeklyParkingSpots = dbContext.WeeklyParkingSpot.ToList();
+                var weeklyParkingSpots = dbContext.WeeklyParkingSpots.ToList();
                 if (!weeklyParkingSpots.Any())
                 {
                     return Task.CompletedTask;
@@ -39,7 +39,7 @@ namespace MySpot.Infrastructure.DAL
                     new WeeklyParkingSpot(Guid.Parse("00000000-0000-0000-0000-000000000004"), new Week(clock.Current()), "P4"),
                     new WeeklyParkingSpot(Guid.Parse("00000000-0000-0000-0000-000000000005"), new Week(clock.Current()), "P5"),
                 };
-                dbContext.WeeklyParkingSpot.AddRange(weeklyParkingSpots);
+                dbContext.WeeklyParkingSpots.AddRange(weeklyParkingSpots);
                 dbContext.SaveChanges();
             }
 
