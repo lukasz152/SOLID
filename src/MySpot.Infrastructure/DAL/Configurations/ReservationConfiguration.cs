@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MySpot.Api.Entities;
 using MySpot.Api.ValueObjects;
 using MySpot.Core.Entities;
+using MySpot.Core.ValueObjects;
 
 namespace MySpot.Infrastructure.DAL.Configurations
 {
@@ -15,8 +16,13 @@ namespace MySpot.Infrastructure.DAL.Configurations
                 .HasConversion(x => x.Value, x => new ReservationId(x));  // z guid na reservationId
             builder.Property(x => x.ParkingSpotId)
                 .HasConversion(x => x.Value, x => new ParkingSpotId(x));
+            builder.Property(x => x.Capacity)
+                .IsRequired()
+                .HasConversion(x => x.Value, x => new Capacity(x));
             builder.Property(x => x.Date)
                 .HasConversion(x => x.Value, x => new Date(x));
+
+            
 
             builder
                 .HasDiscriminator<string>("Type")

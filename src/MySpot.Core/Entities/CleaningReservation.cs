@@ -7,10 +7,9 @@ namespace MySpot.Core.Entities
     {
         private CleaningReservation()
         {
-            
         }
 
-        public CleaningReservation(ReservationId id, ParkingSpotId parkingSpotId, Date date) : base(id, parkingSpotId, date)
+        public CleaningReservation(ReservationId id, ParkingSpotId parkingSpotId, Date date) : base(id, parkingSpotId, 2, date)
         {
         }
     }

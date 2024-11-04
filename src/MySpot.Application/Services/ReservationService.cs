@@ -59,7 +59,7 @@ namespace MySpot.Api.Services
             }
 
             var reservation = new VehicleReservation(command.ReservationId, command.ParkingSpotId, command.EmployeeName,
-                command.LicensePlate, new Date(command.Date));
+                command.LicensePlate, command.Capacity ,new Date(command.Date));
 
             _parkingReservationService.ReserveSpotForVehicle(weeklyParkingSpots, JobTitle.Employee, parkingSpotToReserve, reservation);
 
@@ -124,13 +124,13 @@ namespace MySpot.Api.Services
 
             _parkingReservationService.ReserveParkingForCleaning(weeklyParkingSpots, new Date(command.Date));
 
-            var tasks = weeklyParkingSpots.Select(x => _weeklyParkingSpotRepository.UpdateAsync(x));
-            await Task.WhenAll(tasks);
+            //var tasks = weeklyParkingSpots.Select(x => _weeklyParkingSpotRepository.UpdateAsync(x));
+            //await Task.WhenAll(tasks);
 
-            //foreach (var parkingSpot in weeklyParkingSpots)
-            //{
-            //    await _weeklyParkingSpotRepository.UpdateAsync(parkingSpot);
-            //}
+            foreach (var parkingSpot in weeklyParkingSpots)
+            {
+                await _weeklyParkingSpotRepository.UpdateAsync(parkingSpot);
+            }
 
         }
     }

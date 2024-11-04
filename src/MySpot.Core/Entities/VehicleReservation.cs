@@ -1,5 +1,6 @@
 ﻿using MySpot.Api.Entities;
 using MySpot.Api.ValueObjects;
+using MySpot.Core.ValueObjects;
 
 namespace MySpot.Core.Entities
 {
@@ -10,7 +11,9 @@ namespace MySpot.Core.Entities
 
         private VehicleReservation() { }
 
-        public VehicleReservation(ReservationId id, ParkingSpotId parkingSpotId, EmployeeName employeeName, LicensePlate licensePlate, Date date) : base(id, parkingSpotId, date)
+        public VehicleReservation(ReservationId id, ParkingSpotId parkingSpotId, 
+            EmployeeName employeeName, LicensePlate licensePlate, Capacity capacity, Date date) 
+            : base(id, parkingSpotId, capacity,date)
         {
             EmployeeName= employeeName;
             ChangeLicensePlate(licensePlate);
