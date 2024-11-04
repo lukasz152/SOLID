@@ -5,9 +5,9 @@ using MySpot.Api.ValueObjects;
 
 namespace MySpot.Infrastructure.DAL.Configurations
 {
-    internal sealed class WeeklyParkingSpotConfiguration : IEntityTypeConfiguration<WeeklyParkingSpot>
+    internal sealed class WeeklyParkingSpotConfiguration : IEntityTypeConfiguration<Api.Entities.WeeklyParkingSpot>
     {
-        public void Configure(EntityTypeBuilder<WeeklyParkingSpot> builder)
+        public void Configure(EntityTypeBuilder<Api.Entities.WeeklyParkingSpot> builder)
         {
             builder.HasKey(x => x.Id); //klucz
 

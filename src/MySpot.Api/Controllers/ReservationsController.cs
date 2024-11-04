@@ -2,6 +2,7 @@
 using MySpot.Api.Commands;
 using MySpot.Api.DTO;
 using MySpot.Api.Services;
+using MySpot.Application.Commands;
 
 namespace MySpot.Api.Controllers
 {
@@ -17,7 +18,7 @@ namespace MySpot.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ReservationDto>>> Get() 
+        public async Task<ActionResult<IEnumerable<ReservationDto>>> Get()
             => Ok(await _reservationService.GetAllWeeklyAsync());
 
 
@@ -33,10 +34,10 @@ namespace MySpot.Api.Controllers
             return Ok(reservation);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Post(CreateReservation command)
+        [HttpPost("vehicle")]
+        public async Task<ActionResult> Post(ReserveParkingSpotForVehicle command)
         {
-            var id = await _reservationService.CreateAsync(command with { ReservationId = Guid.NewGuid() });
+            var id = await _reservationService.ReserveForVehicleAsync(command with { ReservationId = Guid.NewGuid() });
             if (id == null)
             {
                 return BadRequest();
@@ -45,10 +46,19 @@ namespace MySpot.Api.Controllers
             return CreatedAtAction(nameof(Get), new { id }, null);
         }
 
+
+        [HttpPost("cleaning")]
+        public async Task<ActionResult> Post(ReserveParkingSpotForCleaning command)
+        {
+            await _reservationService.ReserveForCleaningAsync(command);
+
+            return Ok();
+        }
+
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> Put(Guid id, ChangeReservationLicensePlate command)
         {
-            if (await _reservationService.UpdateAsync(command with { ReservationId = id }))
+            if (await _reservationService.ChangeReservationLicensePlateAsync(command with { ReservationId = id }))
             {
                 return NoContent();
             }

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MySpot.Api.Entities;
+using MySpot.Api.ValueObjects;
+using MySpot.Core.Entities;
+using MySpot.Core.ValueObjects;
 
 namespace MySpot.Core.DomainServices
 {
-    internal interface IParkingReservationService
+    public interface IParkingReservationService
     {
+        void ReserveSpotForVehicle(IEnumerable<WeeklyParkingSpot> allParkingSpots, JobTitle jobTitle,
+            WeeklyParkingSpot parkingSpotToReserve, VehicleReservation vehicleReservation);
+        void ReserveParkingForCleaning(IEnumerable<WeeklyParkingSpot> allParkingSpots, Date date);
     }
 }

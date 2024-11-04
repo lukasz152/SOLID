@@ -18,8 +18,10 @@ namespace MySpot.Infrastructure.DAL
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
 
             //albo to na dole albo u gory (to u gory wyszukuje wszytskie mapowania w tym assmeblie ktore uzywa ientiotytypeconfigration)
+            //modelBuilder.ApplyConfiguration(new CleaningReservationConfiguration());
             //modelBuilder.ApplyConfiguration(new ReservationConfigration());
             //modelBuilder.ApplyConfiguration(new WeeklyParkingSpotConfiguration());
+            //modelBuilder.ApplyConfiguration(new VehicleReservationConfiguration());
         }
     }
 }

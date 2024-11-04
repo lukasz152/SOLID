@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MySpot.Infrastructure.DAL.Migrations
+namespace MySpot.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -12,7 +12,7 @@ namespace MySpot.Infrastructure.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "WeeklyParkingSpot",
+                name: "WeeklyParkingSpots",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -21,7 +21,7 @@ namespace MySpot.Infrastructure.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WeeklyParkingSpot", x => x.Id);
+                    table.PrimaryKey("PK_WeeklyParkingSpots", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -30,18 +30,19 @@ namespace MySpot.Infrastructure.DAL.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ParkingSpotId = table.Column<Guid>(type: "uuid", nullable: false),
-                    EmployeeName = table.Column<string>(type: "text", nullable: false),
-                    LicensePlate = table.Column<string>(type: "text", nullable: false),
                     Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    WeeklyParkingSpotId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Type = table.Column<string>(type: "character varying(21)", maxLength: 21, nullable: false),
+                    WeeklyParkingSpotId = table.Column<Guid>(type: "uuid", nullable: true),
+                    EmployeeName = table.Column<string>(type: "text", nullable: true),
+                    LicensePlate = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reservation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reservation_WeeklyParkingSpot_WeeklyParkingSpotId",
+                        name: "FK_Reservation_WeeklyParkingSpots_WeeklyParkingSpotId",
                         column: x => x.WeeklyParkingSpotId,
-                        principalTable: "WeeklyParkingSpot",
+                        principalTable: "WeeklyParkingSpots",
                         principalColumn: "Id");
                 });
 
@@ -58,7 +59,7 @@ namespace MySpot.Infrastructure.DAL.Migrations
                 name: "Reservation");
 
             migrationBuilder.DropTable(
-                name: "WeeklyParkingSpot");
+                name: "WeeklyParkingSpots");
         }
     }
 }

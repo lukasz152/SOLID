@@ -1,5 +1,6 @@
 ﻿using MySpot.Api.Commands;
 using MySpot.Api.DTO;
+using MySpot.Application.Commands;
 
 namespace MySpot.Api.Services
 {
@@ -7,8 +8,9 @@ namespace MySpot.Api.Services
     {
         Task<ReservationDto> GetAsync(Guid id);
         Task<IEnumerable<ReservationDto>> GetAllWeeklyAsync();
-        Task<Guid?> CreateAsync(CreateReservation command);
-        Task<bool> UpdateAsync(ChangeReservationLicensePlate command);
+        Task<Guid?> ReserveForVehicleAsync(ReserveParkingSpotForVehicle command);
+        Task ReserveForCleaningAsync(ReserveParkingSpotForCleaning command);
+        Task<bool> ChangeReservationLicensePlateAsync(ChangeReservationLicensePlate command);
         Task<bool> DeleteAsync(DeleteReservation command);
     }
 }

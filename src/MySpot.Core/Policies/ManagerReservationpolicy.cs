@@ -1,5 +1,6 @@
 ﻿using MySpot.Api.Entities;
 using MySpot.Api.ValueObjects;
+using MySpot.Core.Entities;
 using MySpot.Core.ValueObjects;
 
 namespace MySpot.Core.Policies
@@ -13,6 +14,7 @@ namespace MySpot.Core.Policies
         {
             var totalEmployeeReservation = weeklyParkingSpots
                .SelectMany(x => x.Reservations)
+               .OfType<VehicleReservation>()
                .Count(x => x.EmployeeName == employeeName);
 
             return totalEmployeeReservation <=4;
