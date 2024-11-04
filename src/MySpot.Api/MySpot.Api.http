@@ -19,6 +19,7 @@ Content-Type: application/json
 
 {
   "parkingSpotId" : "{{parkingSpotId}}}",
+  "capacity" : 1
   "EmployeeName" : "John Doe",
   "licenseplate" : "xyz111",
   "date" : "2024-12-08"
