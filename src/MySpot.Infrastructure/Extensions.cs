@@ -5,6 +5,7 @@ using MySpot.Api.Services;
 using MySpot.Application.Abstractions;
 using MySpot.Infrastructure.DAL;
 using MySpot.Infrastructure.DAL.Exceptions;
+using MySpot.Infrastructure.Logging;
 using System.Runtime.CompilerServices;
 
 
@@ -24,6 +25,7 @@ namespace MySpot.Infrastructure
                 .AddPostgres(configuration)
                 .AddSingleton<IClock, Clock>();
 
+
             var InfrastructureAssembly = typeof(AppOptions).Assembly;
 
 
@@ -31,6 +33,8 @@ namespace MySpot.Infrastructure
                 .AddClasses(c => c.AssignableTo(typeof(IQueryHandler<,>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
+
+            services.AddCustomLogging();
 
 
             return services;

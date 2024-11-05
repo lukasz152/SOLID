@@ -1,12 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MySpot.Infrastructure.DAL
+﻿namespace MySpot.Infrastructure.DAL
 {
-    internal class PostgresUnitOfWork
+    internal sealed class PostgresUnitOfWork : IUnitOfWork
     {
+        private readonly MySpotDbContext _dbContext;
+
+        public PostgresUnitOfWork(MySpotDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public async Task ExecuteAsync(Func<Task> action)
+        {
+            await using var transaction = _dbContext.Database.BeginTransaction();
+            try
+            {
+                await action();
+                await _dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch (Exception ex) 
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
     }
 }
