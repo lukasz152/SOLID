@@ -2,11 +2,11 @@
 
 namespace MySpot.Api.ValueObjects
 {
-    public record LicensePlate
+    public record LicencePlate
     {
         public string Value { get; }
 
-        public LicensePlate(string value)
+        public LicencePlate(string value)
         {
 
             if (string.IsNullOrWhiteSpace(value))
@@ -22,8 +22,8 @@ namespace MySpot.Api.ValueObjects
             Value = value;
         }
 
-        public static implicit operator string(LicensePlate licensePlate) => licensePlate?.Value;
+        public static implicit operator string(LicencePlate licensePlate) => licensePlate?.Value;
 
-        public static implicit operator LicensePlate(string licensePlate) => new(licensePlate);
+        public static implicit operator LicencePlate(string licensePlate) => new(licensePlate);
     }
 }

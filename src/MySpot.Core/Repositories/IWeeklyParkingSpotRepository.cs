@@ -1,6 +1,5 @@
 ﻿using MySpot.Api.Entities;
 using MySpot.Api.ValueObjects;
-using System.Data;
 
 namespace MySpot.Api.Repositories
 {
@@ -8,7 +7,7 @@ namespace MySpot.Api.Repositories
     {
         Task<WeeklyParkingSpot> GetAsync(ParkingSpotId id);
         Task<IEnumerable<WeeklyParkingSpot>> GetAllAsync();
-        Task<IEnumerable<WeeklyParkingSpot>> GetByWeekAsync(Week week) => throw new NotImplementedException();
+        Task<IEnumerable<WeeklyParkingSpot>> GetByWeekAsync(Week week);
         Task AddAsync(WeeklyParkingSpot weeklyParkingSpot);
         Task UpdateAsync(WeeklyParkingSpot weeklyParkingSpot);
         Task DeleteAsync(WeeklyParkingSpot weeklyParkingSpot);

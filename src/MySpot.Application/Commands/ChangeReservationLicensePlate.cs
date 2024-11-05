@@ -1,4 +1,6 @@
-﻿namespace MySpot.Api.Commands
+﻿using MySpot.Application.Abstractions;
+
+namespace MySpot.Api.Commands
 {
-    public record ChangeReservationLicensePlate(Guid ReservationId, string LicensePlate);
+    public sealed record ChangeReservationLicencePlate(Guid ReservationId, string LicencePlate) : ICommand;
 }

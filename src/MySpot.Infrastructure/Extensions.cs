@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MySpot.Api.Services;
+using MySpot.Application.Abstractions;
 using MySpot.Infrastructure.DAL;
 using MySpot.Infrastructure.DAL.Exceptions;
 using System.Runtime.CompilerServices;
@@ -22,6 +23,15 @@ namespace MySpot.Infrastructure
             services
                 .AddPostgres(configuration)
                 .AddSingleton<IClock, Clock>();
+
+            var InfrastructureAssembly = typeof(AppOptions).Assembly;
+
+
+            services.Scan(s => s.FromAssemblies(InfrastructureAssembly)
+                .AddClasses(c => c.AssignableTo(typeof(IQueryHandler<,>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
+
 
             return services;
         }

@@ -12,7 +12,7 @@ namespace MySpot.Infrastructure.DAL.Configurations
             builder.Property(x => x.EmployeeName)
                 .HasConversion(x => x.Value, x => new EmployeeName(x));
             builder.Property(x => x.LicensePlate)
-                .HasConversion(x => x.Value, x => new LicensePlate(x));
+                .HasConversion(x => x.Value, x => new LicencePlate(x));
         }
     }
 }

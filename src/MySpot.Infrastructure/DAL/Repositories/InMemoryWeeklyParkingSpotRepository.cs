@@ -40,5 +40,10 @@ namespace MySpot.Infrastructure.DAL.Repositories
             _weeklyParkingSpots.Remove(weeklyParkingSpot);
             return Task.CompletedTask;
         }
+
+        public Task<IEnumerable<WeeklyParkingSpot>> GetByWeekAsync(Week week)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
