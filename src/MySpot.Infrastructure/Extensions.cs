@@ -6,6 +6,7 @@ using MySpot.Application.Abstractions;
 using MySpot.Infrastructure.DAL;
 using MySpot.Infrastructure.DAL.Exceptions;
 using MySpot.Infrastructure.Logging;
+using MySpot.Infrastructure.Security;
 using System.Runtime.CompilerServices;
 
 
@@ -18,8 +19,8 @@ namespace MySpot.Infrastructure
         {
             var section = configuration.GetSection("app");
             services.Configure<AppOptions>(section);
-
             services.AddSingleton<ExceptionMiddleware>();
+            services.AddSecurity();
 
             services
                 .AddPostgres(configuration)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MySpot.Api.Entities;
+using MySpot.Core.Entities;
 
 namespace MySpot.Infrastructure.DAL
 {
@@ -7,6 +8,7 @@ namespace MySpot.Infrastructure.DAL
     {
         public DbSet<Reservation> Reservation { get; set; }
         public DbSet<WeeklyParkingSpot> WeeklyParkingSpots { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public MySpotDbContext(DbContextOptions<MySpotDbContext> dbContextOptions) : base(dbContextOptions)
         {
