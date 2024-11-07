@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MySpot.Api.Exceptions;
 
-namespace MySpot.Infrastructure.DAL.Exceptions
+namespace MySpot.Infrastructure.Exceptions
 {
     internal sealed class ExceptionMiddleware : IMiddleware
     {
@@ -19,10 +19,10 @@ namespace MySpot.Infrastructure.DAL.Exceptions
             {
                 await next(context);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 _logger.LogError(exception.ToString());
-                await HandleExceptionAsync(exception,context);
+                await HandleExceptionAsync(exception, context);
             }
         }
 
@@ -31,7 +31,7 @@ namespace MySpot.Infrastructure.DAL.Exceptions
             var (statusCode, error) = exception switch
             {
                 CustomException => (StatusCodes.Status400BadRequest, new Error(exception
-                .GetType().Name.Underscore().Replace("_exception",string.Empty),exception.Message)),
+                .GetType().Name.Underscore().Replace("_exception", string.Empty), exception.Message)),
                 _ => (StatusCodes.Status500InternalServerError, new Error("error", "There was an error.")),
             };
 

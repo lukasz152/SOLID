@@ -22,7 +22,7 @@ namespace MySpot.Api.ValueObjects
             Value = value;
         }
 
-        public static implicit operator string(LicencePlate licensePlate) => licensePlate?.Value;
+        public static implicit operator string(LicencePlate licensePlate) => licensePlate.Value;
 
         public static implicit operator LicencePlate(string licensePlate) => new(licensePlate);
     }

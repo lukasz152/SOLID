@@ -39,11 +39,16 @@ namespace MySpot.Api.Entities
                 throw new InvalidReservationDateException(reservation.Date.Value.Date);
             }
 
+            if (_reservations.Any(x => x.Date == reservation.Date))
+            {
+                throw new ParkingSpotAlreadyReservedException(Name, reservation.Date.Value.Date);
+            }
+
             var dateCapacity = _reservations
-                .Where(x => x.Date == reservation.Date)
-                .Sum(x => x.Capacity);
-            
-            if(dateCapacity + reservation.Capacity > Capacity)
+            .Where(x => x.Date == reservation.Date)
+            .Sum(x => x.Capacity);
+
+            if (dateCapacity + reservation.Capacity > Capacity)
             {
                 throw new ParkingSpotCapacityExceededException(Id);
             }

@@ -8,18 +8,15 @@ namespace MySpot.Api.Controllers
     [Route("")]
     public class HomeController : ControllerBase
     {
-        private readonly string _name;
-        //private readonly IConfiguration _configuration;
+        private readonly AppOptions _appOptions;
 
-
-        //IOptionsSnapshot zapisuje na beizac jka sie zmieni applicaiton.json 
-        public HomeController(IOptions<AppOptions> options)  //IConfiguratio dopeiro sie do plikow konfguracyjnych 
+        public HomeController(IOptions<AppOptions> appOptions)
         {
-            _name = options.Value.Name;
+            _appOptions = appOptions.Value;
         }
 
         [HttpGet]
-        public ActionResult<string> Get() => _name;
-    
+        public ActionResult Get() => Ok(_appOptions.Name);
+
     }
 }

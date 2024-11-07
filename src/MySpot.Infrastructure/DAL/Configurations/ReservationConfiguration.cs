@@ -14,8 +14,6 @@ namespace MySpot.Infrastructure.DAL.Configurations
             builder.HasKey(x => x.Id); //klucz 
             builder.Property(x => x.Id)
                 .HasConversion(x => x.Value, x => new ReservationId(x));  // z guid na reservationId
-            builder.Property(x => x.ParkingSpotId)
-                .HasConversion(x => x.Value, x => new ParkingSpotId(x));
             builder.Property(x => x.Capacity)
                 .IsRequired()
                 .HasConversion(x => x.Value, x => new Capacity(x));

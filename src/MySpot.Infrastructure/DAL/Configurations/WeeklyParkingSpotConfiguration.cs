@@ -6,9 +6,9 @@ using MySpot.Core.ValueObjects;
 
 namespace MySpot.Infrastructure.DAL.Configurations
 {
-    internal sealed class WeeklyParkingSpotConfiguration : IEntityTypeConfiguration<Api.Entities.WeeklyParkingSpot>
+    internal sealed class WeeklyParkingSpotConfiguration : IEntityTypeConfiguration<WeeklyParkingSpot>
     {
-        public void Configure(EntityTypeBuilder<Api.Entities.WeeklyParkingSpot> builder)
+        public void Configure(EntityTypeBuilder<WeeklyParkingSpot> builder)
         {
             builder.HasKey(x => x.Id); //klucz
 
@@ -19,6 +19,9 @@ namespace MySpot.Infrastructure.DAL.Configurations
             builder.Property(x => x.Capacity)
                 .IsRequired()
                 .HasConversion(x => x.Value, x => new Capacity(x));
+            builder.Property(x => x.Capacity)
+            .IsRequired()
+            .HasConversion(x => x.Value, x => new(x));
         }
     }
 }

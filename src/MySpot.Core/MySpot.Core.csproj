@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Abstractions\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,7 +15,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-	  <InternalsVisibleTo Include="MySpot.Tests.Unit"/>
+	  <InternalsVisibleTo Include="MySpot.Tests.Unit" />
   </ItemGroup>
 
 </Project>

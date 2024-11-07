@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Options;
+using MySpot.Api;
 using MySpot.Infrastructure;
 using MySpot.Infrastructure.Logging;
 using Serilog;
@@ -11,10 +13,18 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddCore()
     .AddApplication()
-    .AddInfrastructure(builder.Configuration)
-    .AddControllers();
+    .AddInfrastructure(builder.Configuration);
+//.AddControllers();
 
-builder.UseSerilog();
+builder.Host.UseSerilog((context, loggerConfiguration) =>
+{
+    loggerConfiguration.WriteTo
+        .Console();
+    // .WriteTo
+    // .File("logs.txt")
+    // .WriteTo
+    // .Seq("http://localhost:5341");
+});
 
 var app = builder.Build();
 
@@ -26,6 +36,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseInfrastructure();
-
-app.UseHttpsRedirection();
+app.MapGet("api", (IOptions<AppOptions> options) => Results.Ok(options.Value.Name));
+app.UseUsersApi();
 app.Run();

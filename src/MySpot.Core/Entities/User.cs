@@ -12,8 +12,8 @@ namespace MySpot.Core.Entities
         public Role Role { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
-        public User(Guid id, string email, string username, string password, string fullName, string role, 
-            DateTime createdAt)
+         private User() { }
+        public User(UserId id, Email email, UserName username, Password password, FullName fullName, Role role, DateTime createdAt)
         {
             Id = id;
             Email = email;

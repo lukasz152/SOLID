@@ -20,10 +20,10 @@ namespace MySpot.Infrastructure.DAL.Repositories
         public Task<User> GetByEmailAsync(Email email)
             => _users.SingleOrDefaultAsync(x => x.Email == email);
 
+        public Task<User> GetByUsernameAsync(UserName username)
+            => _users.SingleOrDefaultAsync(x => x.Username == username);
+
         public async Task AddAsync(User user)
             => await _users.AddAsync(user);
-
-        public Task<User> GetByUsernameAsync(UserName username)
-             => _users.SingleOrDefaultAsync(x => x.Username == username);
     }
 }

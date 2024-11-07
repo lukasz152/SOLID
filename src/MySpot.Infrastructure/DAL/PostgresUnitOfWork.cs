@@ -5,20 +5,19 @@
         private readonly MySpotDbContext _dbContext;
 
         public PostgresUnitOfWork(MySpotDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+            => _dbContext = dbContext;
 
         public async Task ExecuteAsync(Func<Task> action)
         {
-            await using var transaction = _dbContext.Database.BeginTransaction();
+            await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
             try
             {
                 await action();
                 await _dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
             }
-            catch (Exception ex) 
+            catch (Exception)
             {
                 await transaction.RollbackAsync();
                 throw;

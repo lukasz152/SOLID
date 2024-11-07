@@ -8,48 +8,39 @@ namespace MySpot.Infrastructure.DAL.Repositories
     internal sealed class PostgresWeeklyParkingSpotRepository : IWeeklyParkingSpotRepository
     {
         private readonly MySpotDbContext _dbContext;
+        private readonly DbSet<WeeklyParkingSpot> _weeklyParkingSpots;
 
         public PostgresWeeklyParkingSpotRepository(MySpotDbContext dbContext)
         {
             _dbContext = dbContext;
+            _weeklyParkingSpots = _dbContext.WeeklyParkingSpots;
         }
-
-        public Task<WeeklyParkingSpot> GetAsync(ParkingSpotId id) 
-            => _dbContext.WeeklyParkingSpots
-            .Include(x => x.Reservations)
-            .SingleOrDefaultAsync(x => x.Id == id);
-        
-        public async Task<IEnumerable<WeeklyParkingSpot>> GetByWeekAsync(Week week) 
-            => await _dbContext.WeeklyParkingSpots
-            .Include(x => x.Reservations)
-            .Where(x => x.Week == week)
-            .ToListAsync();
 
         public async Task<IEnumerable<WeeklyParkingSpot>> GetAllAsync()
-        {
-            var result = await _dbContext.WeeklyParkingSpots   // why await ?
-            .Include(x => x.Reservations)
-            .ToListAsync();
+            => await _weeklyParkingSpots
+                .Include(x => x.Reservations)
+                .ToListAsync();
 
-            return result.AsEnumerable();
-        }
+        public async Task<IEnumerable<WeeklyParkingSpot>> GetByWeekAsync(Week week)
+            => await _weeklyParkingSpots
+                .Include(x => x.Reservations)
+                .Where(x => x.Week == week)
+                .ToListAsync();
+
+        public async Task<WeeklyParkingSpot> GetAsync(ParkingSpotId id)
+            => await _weeklyParkingSpots
+                .Include(x => x.Reservations)
+                .SingleOrDefaultAsync(x => x.Id == id);
 
         public async Task AddAsync(WeeklyParkingSpot weeklyParkingSpot)
         {
-            await _dbContext.AddAsync(weeklyParkingSpot);
+            await _weeklyParkingSpots.AddAsync(weeklyParkingSpot);
         }
 
         public Task UpdateAsync(WeeklyParkingSpot weeklyParkingSpot)
         {
-            _dbContext.Update(weeklyParkingSpot);
+            _weeklyParkingSpots.Update(weeklyParkingSpot);
             return Task.CompletedTask;
         }
-
-        public async Task DeleteAsync(WeeklyParkingSpot weeklyParkingSpot)
-        {
-            _dbContext.Remove(weeklyParkingSpot);
-            await _dbContext.SaveChangesAsync();
-        }
-
     }
 }

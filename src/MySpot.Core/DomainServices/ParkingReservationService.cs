@@ -20,20 +20,9 @@ namespace MySpot.Core.DomainServices
             _polices = polices;
         }
 
-        public void ReserveParkingForCleaning(IEnumerable<WeeklyParkingSpot> allParkingSpots, Date date)
-        {
-            foreach (var parkingSpot in allParkingSpots)
-            {
-                var reservationForSameDate = parkingSpot.Reservations.Where(x => x.Date == date);
-                parkingSpot.RemoveReservations(reservationForSameDate);
-
-                var cleaningReservation = new CleaningReservation(ReservationId.Create(), parkingSpot.Id, date);
-                parkingSpot.AddReservation(cleaningReservation, new Date(_clock.Current()));
-            }
-        }
-
-        public void ReserveSpotForVehicle(IEnumerable<WeeklyParkingSpot> allParkingSpots, JobTitle jobTitle, 
-            WeeklyParkingSpot parkingSpotToReserve, VehicleReservation reservation)
+        public void ReserveSpotForVehicle(IEnumerable<WeeklyParkingSpot> allParkingSpots, JobTitle jobTitle,
+        WeeklyParkingSpot parkingSpotToReserve,
+        VehicleReservation reservation)
         {
             var parkingSpotId = parkingSpotToReserve.Id;
             var policy = _polices.SingleOrDefault(x => x.CanBeApplied(jobTitle));
@@ -48,7 +37,18 @@ namespace MySpot.Core.DomainServices
                 throw new CannotReserveParkingSpotException(parkingSpotId);
             }
 
-            parkingSpotToReserve.AddReservation(reservation, new Api.ValueObjects.Date(_clock.Current()));
+            parkingSpotToReserve.AddReservation(reservation, new Date(_clock.Current()));
+        }
+
+        public void ReserveParkingForCleaning(IEnumerable<WeeklyParkingSpot> allParkingSpots, Date date)
+        {
+            foreach (var parkingSpot in allParkingSpots)
+            {
+                var reservationsForSameDate = parkingSpot.Reservations.Where(x => x.Date == date);
+                parkingSpot.RemoveReservations(reservationsForSameDate);
+                parkingSpot.AddReservation(new CleaningReservation(ReservationId.Create(), date),
+                    new Date(_clock.Current()));
+            }
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using MySpot.Api.Services;
 using MySpot.Application.Abstractions;
+using MySpot.Infrastructure.Auth;
 using MySpot.Infrastructure.DAL;
-using MySpot.Infrastructure.DAL.Exceptions;
+using MySpot.Infrastructure.Exceptions;
 using MySpot.Infrastructure.Logging;
 using MySpot.Infrastructure.Security;
 using System.Runtime.CompilerServices;
@@ -17,26 +19,37 @@ namespace MySpot.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            var section = configuration.GetSection("app");
-            services.Configure<AppOptions>(section);
+            services.AddControllers();
+            services.Configure<AppOptions>(configuration.GetRequiredSection("app"));
             services.AddSingleton<ExceptionMiddleware>();
-            services.AddSecurity();
+            services.AddHttpContextAccessor();
 
             services
                 .AddPostgres(configuration)
+                // .AddSingleton<IWeeklyParkingSpotRepository, InMemoryWeeklyParkingSpotRepository>()
                 .AddSingleton<IClock, Clock>();
 
+            services.AddCustomLogging();
+            services.AddSecurity();
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen(swagger =>
+            {
+                swagger.EnableAnnotations();
+                swagger.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "MySpot API",
+                    Version = "v1"
+                });
+            });
 
-            var InfrastructureAssembly = typeof(AppOptions).Assembly;
+            var infrastructureAssembly = typeof(AppOptions).Assembly;
 
-
-            services.Scan(s => s.FromAssemblies(InfrastructureAssembly)
+            services.Scan(s => s.FromAssemblies(infrastructureAssembly)
                 .AddClasses(c => c.AssignableTo(typeof(IQueryHandler<,>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 
-            services.AddCustomLogging();
-
+            services.AddAuth(configuration);
 
             return services;
         }
@@ -44,9 +57,27 @@ namespace MySpot.Infrastructure
         public static WebApplication UseInfrastructure(this WebApplication app)
         {
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseSwagger();
+            app.UseReDoc(reDoc =>
+            {
+                reDoc.RoutePrefix = "docs";
+                reDoc.SpecUrl("/swagger/v1/swagger.json");
+                reDoc.DocumentTitle = "MySpot API";
+            });
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.MapControllers();
 
             return app;
+        }
+
+        public static T GetOptions<T>(this IConfiguration configuration, string sectionName) where T : class, new()
+        {
+            var options = new T();
+            var section = configuration.GetRequiredSection(sectionName);
+            section.Bind(options);
+
+            return options;
         }
     }
 }

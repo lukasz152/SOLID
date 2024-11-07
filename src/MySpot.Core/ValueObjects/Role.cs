@@ -34,4 +34,3 @@ namespace MySpot.Core.ValueObjects
         public override string ToString() => Value;
     }
 }
-}

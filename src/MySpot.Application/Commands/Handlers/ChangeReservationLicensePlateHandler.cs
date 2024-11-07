@@ -1,11 +1,10 @@
 ﻿using MySpot.Api.Commands;
 using MySpot.Api.Entities;
-using MySpot.Api.Exceptions;
 using MySpot.Api.Repositories;
 using MySpot.Api.ValueObjects;
 using MySpot.Application.Abstractions;
-using MySpot.Application.Exceptions;
 using MySpot.Core.Entities;
+using MySpot.Application.Exceptions;
 
 namespace MySpot.Application.Commands.Handlers
 {
