@@ -2,6 +2,7 @@
 using MySpot.Application.Exceptions;
 using MySpot.Application.Security;
 using MySpot.Core.Repositories;
+using MySpot.Core.ValueObjects;
 
 namespace MySpot.Application.Commands.Handlers
 {
